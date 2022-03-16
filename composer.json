@@ -1,0 +1,19 @@
+{
+    "name": "ohtarr/mist",
+    "description": "Mist API PHP",
+    "license": "LGPL-3.0-or-later",
+    "require": {
+        "guzzlehttp/guzzle": "^7.0.1"
+    },
+    "authors": [
+        {
+            "name": "ohtarr",
+            "email": "ohtarr@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ohtarr\\": "lib/"
+        }
+    }
+}
