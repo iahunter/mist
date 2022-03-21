@@ -35,15 +35,7 @@ class Mist
 {
     public $cookiejar;
     public $baseurl;
-    public $customer_id;
-    public $client_id;
-    public $client_secret;
-    public $auth_code;
     public $token;
-    public $refresh_token;
-    public $inventory;
-    public $inventoryarchive;
-
 
     public function __construct($baseurl, $org_id, $token = null)
     {
@@ -671,6 +663,30 @@ class Mist
         $this->UpdateSite($siteid, $params);
     }
 
+    public function getLogs()
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/orgs/' . $this->org_id . '/logs/',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ],
+                'query' =>  [
+                    'limit'     =>  '100',
+                    'start'     =>  '1647790642',
+                    'end'       =>  '1647890642',
+                ],
+            ]
+        ];
+        try{
+            $response = $this->guzzle($guzzleparams);
+        } catch(\Exception $e) {
+            return null;
+        }
+        return $response;
+    }
 
 
 }
