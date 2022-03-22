@@ -116,6 +116,54 @@ class Mist
         return $response;
     }
 
+    public function getOrgSettings()
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/orgs/' . $this->org_id . '/setting',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ]
+            ]
+        ];
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
+    public function getOrgAdmins()
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/orgs/' . $this->org_id . '/admins',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ]
+            ]
+        ];
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
+    public function getOrgLicenses()
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/orgs/' . $this->org_id . '/licenses',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ]
+            ]
+        ];
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
     public function getOrgSites()
     {
         $guzzleparams = [
@@ -489,7 +537,7 @@ class Mist
         }
 
         $response = $this->guzzle($guzzleparams);
-        return $response;
+        return $response['results'];
     }
 
     public function getAdoptionCommand($siteid = null)
