@@ -203,6 +203,64 @@ class Mist
         return $response;
     }
 
+    public function getSiteSettingsById($siteid)
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/sites/' . $siteid . '/setting',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ]
+            ]
+        ];
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
+    public function UpdateSiteSettings($siteid, $params = [])
+    {
+        $body = $params;
+        $guzzleparams = [
+            'verb'      =>  'put',
+            'url'       =>  $this->baseurl . '/sites/' . $siteid . '/setting',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ],
+                'body' => json_encode($body),
+            ]
+        ];
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
+    public function addSiteVariables($siteid, $variables = [])
+    {
+        $sitesettings = $this->getSiteSettingsById($siteid);
+        $existingvars = $sitesettings['vars'];
+        
+        $body = [
+            'vars'  =>  $variables + $existingvars,
+        ];
+
+        $guzzleparams = [
+            'verb'      =>  'put',
+            'url'       =>  $this->baseurl . '/sites/' . $siteid . '/setting',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ],
+                'body' => json_encode($body),
+            ]
+        ];
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
     public function addSiteToGroup($siteid, $sitegroupid)
     {
         $currentgroupids = $this->getSite($siteid)['sitegroup_ids'];
@@ -688,5 +746,27 @@ class Mist
         return $response;
     }
 
+    public function searchWiredClients($siteid, $device_mac)
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/sites/' . $siteid . '/wired_clients/search',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ],
+                'query' =>  [
+                    'mac'     =>  $device_mac,
+                ],
+            ]
+        ];
+        try{
+            $response = $this->guzzle($guzzleparams);
+        } catch(\Exception $e) {
+            return null;
+        }
+        return $response;
+    }
 
 }
