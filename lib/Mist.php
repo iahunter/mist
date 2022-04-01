@@ -540,11 +540,49 @@ class Mist
         return $response['results'];
     }
 
+    //Type = switch, gateway, ?
+    public function getSiteStats($siteid, $type=null)
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/sites/' . $siteid . '/stats/devices',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ],
+            ]
+        ];
+        if($type)
+        {
+            $guzzleparams['params']['query']['type'] = $type;
+        }
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
     public function getAdoptionCommand($siteid = null)
     {
         $guzzleparams = [
             'verb'      =>  'get',
             'url'       =>  $this->baseurl . '/orgs/' . $this->org_id . '/ocdevices/outbound_ssh_cmd',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ]
+            ]
+        ];
+
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
+    public function getSiteDevices($siteid)
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/sites/' . $siteid . '/devices',
             'params'    =>  [
                 'headers'   =>  [
                     'Authorization' =>  'Token ' . $this->token,
