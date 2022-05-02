@@ -541,7 +541,7 @@ class Mist
     }
 
     //Type = switch, gateway, ?
-    public function getSiteStats($siteid, $type=null)
+    public function getSiteStats($siteid, $type="all")
     {
         $guzzleparams = [
             'verb'      =>  'get',
@@ -551,12 +551,11 @@ class Mist
                     'Authorization' =>  'Token ' . $this->token,
                     'Content-Type'  => 'application/json',
                 ],
+                'query' =>  [
+                    'type'  =>  $type,
+                ],
             ]
         ];
-        if($type)
-        {
-            $guzzleparams['params']['query']['type'] = $type;
-        }
         $response = $this->guzzle($guzzleparams);
         return $response;
     }
@@ -578,7 +577,8 @@ class Mist
         return $response;
     }
 
-    public function getSiteDevices($siteid)
+    //Type =  ap, switch, gateway, all
+    public function getSiteDevices($siteid, $type = "all")
     {
         $guzzleparams = [
             'verb'      =>  'get',
@@ -587,10 +587,30 @@ class Mist
                 'headers'   =>  [
                     'Authorization' =>  'Token ' . $this->token,
                     'Content-Type'  => 'application/json',
-                ]
+                ],
+                'query' =>  [
+                    'type'  =>  $type,
+                ],
             ]
         ];
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
 
+    public function modifySiteDevice($siteid, $deviceid, $params)
+    {
+        $body = $params;
+        $guzzleparams = [
+            'verb'      =>  'put',
+            'url'       =>  $this->baseurl . '/sites/' . $siteid . '/devices/' . $deviceid,
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ],
+                'body' => json_encode($body),
+            ]
+        ];
         $response = $this->guzzle($guzzleparams);
         return $response;
     }
