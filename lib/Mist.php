@@ -311,19 +311,19 @@ class Mist
 
     public function addSiteToGroup($siteid, $sitegroupid)
     {
-        $currentgroupids = $this->getSite($siteid)['sitegroup_ids'];
-        print_r($currentgroupids);
+        $currentgroupids = $this->getSiteById($siteid)['sitegroup_ids'];
+        //print_r($currentgroupids);
         foreach($currentgroupids as $groupid)
         {
             if($sitegroupid == $groupid)
             {
-                print "Sitegroup already assigned!";
+                print "Sitegroup already assigned!\n";
                 return null;
             }
         }
         $newgroupids = $currentgroupids;
         $newgroupids[] = $sitegroupid;
-        print_r($newgroupids);
+        //print_r($newgroupids);
 
         $body = [
             'sitegroup_ids' => $newgroupids,
