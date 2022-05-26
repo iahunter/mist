@@ -721,11 +721,32 @@ class Mist
 
     public function removeSiteFromTemplate($templateid,$siteid)
     {
+        $template = $this->getTemplateById($templateid);
+        if(!$template)
+        {
+            return null;
+        }
+        $site = $this->getSiteById($siteid);
+        if(!$site)
+        {
+            return null;
+        }
+        $appliedsiteids = $template['applies']['site_ids'];
+        //print count($appliedsiteids) . "\n";
+
+        foreach($appliedsiteids as $key => $value)
+        {
+            if($siteid == $value)
+            {
+                print "SITE MATCH!\n";
+                unset($appliedsiteids[$key]);
+            }
+        }
+        //print count($appliedsiteids) . "\n";
+
         $body = [
             'applies'   =>  [
-                'site_ids'  =>  [
-                    $siteid,
-                ],
+                'site_ids'  =>  array_values($appliedsiteids),
             ],
         ];
         $guzzleparams = [
