@@ -233,6 +233,18 @@ class Mist
         return $response;
     }
 
+    public function getSiteByName($sitecode)
+    {
+        $sites = $this->getOrgSites();
+        foreach($sites as $site)
+        {
+            if(strtolower($site['name']) == strtolower($sitecode))
+            {
+                return $site;
+            }
+        }
+    }
+
     public function UpdateSite($siteid, $params = [])
     {
         $body = $params;
@@ -528,7 +540,10 @@ class Mist
                 'headers'   =>  [
                     'Authorization' =>  'Token ' . $this->token,
                     'Content-Type'  => 'application/json',
-                ]
+                ],
+                'query' =>  [
+                    'limit' =>  500,
+                ],
             ]
         ];
         if($filter)
@@ -536,7 +551,7 @@ class Mist
             $guzzleparams['params']['query'] = $filter;
         }
 
-        $response = $this->guzzle($guzzleparams);
+        return $response = $this->guzzle($guzzleparams);
         return $response['results'];
     }
 
