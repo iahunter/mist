@@ -531,6 +531,40 @@ class Mist
         return $response;
     }
 
+    public function getAllGatewayTemplateById()
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/orgs/' . $this->org_id . '/gatewaytemplates',
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ]
+            ]
+        ];
+
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
+    public function getGatewayTemplateById($id)
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/orgs/' . $this->org_id . '/gatewaytemplates/' . $id,
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ]
+            ]
+        ];
+
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
     public function getDevices($filter = null)
     {
         $guzzleparams = [
