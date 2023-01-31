@@ -646,6 +646,22 @@ class Mist
         return $response;
     }
 
+    public function getSiteDevice($siteid, $deviceid)
+    {
+        $guzzleparams = [
+            'verb'      =>  'get',
+            'url'       =>  $this->baseurl . '/sites/' . $siteid . '/devices/' . $deviceid,
+            'params'    =>  [
+                'headers'   =>  [
+                    'Authorization' =>  'Token ' . $this->token,
+                    'Content-Type'  => 'application/json',
+                ],
+            ]
+        ];
+        $response = $this->guzzle($guzzleparams);
+        return $response;
+    }
+
     public function modifySiteDevice($siteid, $deviceid, $params)
     {
         $body = $params;
@@ -945,4 +961,6 @@ class Mist
         return $response;
     }
 
+
+    
 }
